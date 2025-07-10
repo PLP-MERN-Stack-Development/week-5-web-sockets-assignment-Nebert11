@@ -1,78 +1,128 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19867127&assignment_repo_type=AssignmentRepo)
-# Real-Time Chat Application with Socket.io
+# NeChat App
 
-This assignment focuses on building a real-time chat application using Socket.io, implementing bidirectional communication between clients and server.
+A modern, full-featured real-time chat application built with React, Express, and Socket.io.
 
-## Assignment Overview
+## 🚀 Overview
+NeChat App is a real-time chat platform supporting global and private messaging, multiple chat rooms, file sharing, reactions, notifications, and more. It is designed for both desktop and mobile, with a focus on user experience and reliability.
 
-You will build a chat application with the following features:
-1. Real-time messaging using Socket.io
-2. User authentication and presence
-3. Multiple chat rooms or private messaging
-4. Real-time notifications
-5. Advanced features like typing indicators and read receipts
+---
 
-## Project Structure
+## ✨ Features
+- **Username-based authentication** (no registration required)
+- **Global and multiple chat rooms**
+- **Private messaging between users**
+- **Real-time message delivery** with delivery acknowledgment
+- **Typing indicators**
+- **Online/offline user status**
+- **Read receipts for private messages**
+- **Message reactions (like, love, etc.)**
+- **Emoji picker for messages**
+- **File, image, and video sharing**
+- **Unread message counts for rooms**
+- **System messages for user join/leave**
+- **In-app and browser notifications for new messages**
+- **Sound notifications for new messages**
+- **Message search within rooms**
+- **Message pagination (infinite scroll)**
+- **Reconnection logic for network issues**
+- **Responsive design for desktop and mobile**
+- **Persistent login (remembers user after reload)**
 
+---
+
+## 🛠️ Setup Instructions
+
+### Prerequisites
+- Node.js v18 or higher
+- pnpm (or npm/yarn)
+
+### Local Development
+1. **Clone the repository:**
+   ```sh
+   git clone <your-repo-url>
+   cd week-5-web-sockets-assignment-Nebert11
+   ```
+2. **Install server dependencies:**
+   ```sh
+   cd server
+   pnpm install
+   ```
+3. **Install client dependencies:**
+   ```sh
+   cd ../client
+   pnpm install
+   ```
+4. **Start the servers:**
+   - In `server/`: `pnpm run dev`
+   - In `client/`: `pnpm run dev`
+5. **Open the app:**
+   - Client: [http://localhost:5173](http://localhost:5173)
+   - Server: [http://localhost:5000](http://localhost:5000)
+
+### Environment Variables
+- **Frontend (`client/.env`):**
+  ```
+  VITE_SOCKET_URL=http://localhost:5000
+  ```
+- **Backend (`server/.env`):**
+  ```
+  CLIENT_URL=http://localhost:5173
+  ```
+  *(Update these for production deployment!)*
+
+---
+
+## 🌐 Deployment
+
+NeChat App can be deployed as a full-stack app on Render, Railway, or similar platforms.
+
+### Steps:
+1. **Build the React app:**
+   ```sh
+   cd client
+   pnpm run build
+   ```
+2. **Copy the build output to the server:**
+   - Copy contents of `client/dist` to `server/public`.
+3. **Push to GitHub and deploy using your platform’s instructions.**
+   - Set environment variables for production URLs.
+   - Start command: `node server/server.js`
+
+---
+
+## 🧩 Project Structure
 ```
-socketio-chat/
-├── client/                 # React front-end
-│   ├── public/             # Static files
-│   ├── src/                # React source code
-│   │   ├── components/     # UI components
-│   │   ├── context/        # React context providers
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── pages/          # Page components
-│   │   ├── socket/         # Socket.io client setup
-│   │   └── App.jsx         # Main application component
-│   └── package.json        # Client dependencies
-├── server/                 # Node.js back-end
-│   ├── config/             # Configuration files
-│   ├── controllers/        # Socket event handlers
-│   ├── models/             # Data models
-│   ├── socket/             # Socket.io server setup
-│   ├── utils/              # Utility functions
-│   ├── server.js           # Main server file
-│   └── package.json        # Server dependencies
-└── README.md               # Project documentation
+week-5-web-sockets-assignment-Nebert11/
+├── client/         # React front-end
+│   ├── src/
+│   ├── public/
+│   └── ...
+├── server/         # Express/Socket.io back-end
+│   ├── server.js
+│   ├── public/     # Contains built React app for deployment
+│   └── ...
+└── README.md
 ```
 
-## Getting Started
+---
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Follow the setup instructions in the `Week5-Assignment.md` file
-4. Complete the tasks outlined in the assignment
+## 📸 Live Link
+*https://week-5-web-sockets-assignment-nebert11.onrender.com/*
 
-## Files Included
+---
 
-- `Week5-Assignment.md`: Detailed assignment instructions
-- Starter code for both client and server:
-  - Basic project structure
-  - Socket.io configuration templates
-  - Sample components for the chat interface
+## 📋 Assignment Tasks Checklist
+- [x] Project setup (Express, Socket.io, React)
+- [x] Core chat functionality (rooms, messages, typing, status)
+- [x] Advanced features (private chat, file sharing, reactions, read receipts)
+- [x] Real-time notifications (in-app, sound, browser)
+- [x] Performance/UX (pagination, reconnection, search, responsive, persistent login)
+- [x] Deployment
 
-## Requirements
+---
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Modern web browser
-- Basic understanding of React and Express
 
-## Submission
+---
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
-
-1. Complete both the client and server portions of the application
-2. Implement the core chat functionality
-3. Add at least 3 advanced features
-4. Document your setup process and features in the README.md
-5. Include screenshots or GIFs of your working application
-6. Optional: Deploy your application and add the URLs to your README.md
-
-## Resources
-
-- [Socket.io Documentation](https://socket.io/docs/v4/)
-- [React Documentation](https://react.dev/)
-- [Express.js Documentation](https://expressjs.com/)
-- [Building a Chat Application with Socket.io](https://socket.io/get-started/chat) 
+## 👤 Author
+*NeChat App by [Nebert Ngari]* 
