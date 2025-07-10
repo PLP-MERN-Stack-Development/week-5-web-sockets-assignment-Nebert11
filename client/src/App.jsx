@@ -405,6 +405,20 @@ function App() {
     localStorage.removeItem('room');
   };
 
+  // Sidebar drawer state for mobile
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Close sidebar when clicking outside (mobile)
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const handleClick = (e) => {
+      if (e.target.closest('.sidebar') || e.target.closest('.sidebar-toggle')) return;
+      setSidebarOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [sidebarOpen]);
+
   if (!username) {
     // (1) Show username prompt UI
     return (
@@ -440,30 +454,62 @@ function App() {
       <style>{`
         @media (max-width: 700px) {
           .main-container {
-            flex-direction: column !important;
-            padding: 8px !important;
-            gap: 8px !important;
+            flex-direction: row !important;
+            padding: 4px !important;
+            gap: 4px !important;
           }
           .sidebar {
-            min-width: 0 !important;
-            border-right: none !important;
-            border-bottom: 1px solid #eee !important;
+            min-width: 200px !important;
+            max-width: 80vw !important;
+            width: 70vw !important;
+            border-right: 1px solid #eee !important;
+            border-bottom: none !important;
             padding-right: 0 !important;
-            padding-bottom: 12px !important;
+            padding-bottom: 0 !important;
+            overflow-y: auto !important;
+            height: 100% !important;
+            position: fixed !important;
+            top: 0; left: 0;
+            background: #fff;
+            z-index: 2000;
+            box-shadow: 2px 0 8px #0002;
+            transform: translateX(-100%);
+            transition: transform 0.25s;
           }
-          .chat-area {
-            height: 350px !important;
-            padding: 8px !important;
+          .sidebar.open {
+            transform: translateX(0);
           }
-          .chat-header {
-            font-size: 1.1rem !important;
+          .sidebar-backdrop {
+            display: block;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.15);
+            z-index: 1999;
           }
-          .search-form input {
-            width: 100% !important;
-            min-width: 0 !important;
+          .sidebar-toggle {
+            display: block !important;
+            position: absolute;
+            top: 18px; left: 18px;
+            z-index: 2100;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #1976d2;
+            cursor: pointer;
           }
         }
+        @media (min-width: 701px) {
+          .sidebar-toggle { display: none !important; }
+          .sidebar { position: static !important; transform: none !important; box-shadow: none !important; }
+          .sidebar-backdrop { display: none !important; }
+        }
       `}</style>
+      {/* Hamburger icon for mobile */}
+      <button className="sidebar-toggle" style={{ display: 'none' }} onClick={() => setSidebarOpen(v => !v)} title="Open sidebar">
+        &#9776;
+      </button>
+      {/* Sidebar backdrop for mobile */}
+      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
       <div className="main-container" style={{ maxWidth: 1000, margin: '2rem auto', border: '1px solid #ddd', borderRadius: 8, padding: 24, background: '#fff', display: 'flex', gap: 24, position: 'relative', minHeight: 600 }}>
         {/* (5.2) Connection status banner */}
         {isDisconnected && (
@@ -488,7 +534,7 @@ function App() {
           </div>
         )}
         {/* (4) Online Users Sidebar */}
-        <div className="sidebar" style={{ minWidth: 180, borderRight: '1px solid #eee', paddingRight: 16 }}>
+        <div className={`sidebar${sidebarOpen ? ' open' : ''}`} style={{ minWidth: 180, borderRight: '1px solid #eee', paddingRight: 16 }}>
           <h3 style={{ marginTop: 0, marginBottom: 8, fontSize: 18 }}>Online Users</h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {/* (7) Show online/offline status for users */}
@@ -725,6 +771,12 @@ function App() {
               );
             })}
           </div>
+          {/* Typing indicator at the bottom of chat area */}
+          {typingUsers.filter(u => u !== username).length > 0 && (
+            <div style={{ minHeight: 24, color: '#888', fontStyle: 'italic', margin: '0 0 4px 12px', textAlign: 'left' }}>
+              {typingUsers.filter(u => u !== username).join(', ')} {typingUsers.filter(u => u !== username).length === 1 ? 'is' : 'are'} typing...
+            </div>
+          )}
           {/* Message input at bottom */}
           <form className="message-input-form" onSubmit={handleSendMessage} style={{ display: 'flex', gap: 8, alignItems: 'center', padding: 12, borderTop: '1px solid #eee', background: '#fff' }}>
             <input
@@ -780,16 +832,6 @@ function App() {
             </button>
           </form>
         </div>
-        {/* (9) Typing indicator */}
-        {typingUsers.length > 0 && (
-          <div style={{ minHeight: 24, color: '#888', fontStyle: 'italic', marginTop: 4 }}>
-            {typingUsers.filter(u => u !== username).length > 0 && (
-              <>
-                {typingUsers.filter(u => u !== username).join(', ')} {typingUsers.filter(u => u !== username).length === 1 ? 'is' : 'are'} typing...
-              </>
-            )}
-          </div>
-        )}
       </div>
     </>
   );
