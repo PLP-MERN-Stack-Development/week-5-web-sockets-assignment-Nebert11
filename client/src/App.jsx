@@ -8,7 +8,7 @@ import axios from 'axios';
 function App() {
   const [count, setCount] = useState(0)
   // (1) Prompt user for username
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(() => localStorage.getItem('username') || '');
   const [input, setInput] = useState('');
   const [messageInput, setMessageInput] = useState('');
   // (1) Select user to message (for private messaging)
@@ -16,7 +16,7 @@ function App() {
   // (2) Private message input
   const [privateMessageInput, setPrivateMessageInput] = useState('');
   // (1) Room state: current room, available rooms, and new room input
-  const [room, setRoom] = useState('General');
+  const [room, setRoom] = useState(() => localStorage.getItem('room') || 'General');
   const [rooms, setRooms] = useState(['General']);
   const [roomInput, setRoomInput] = useState('');
   // (2) Connect with username, room, and manage chat state
@@ -385,6 +385,26 @@ function App() {
     setSearchResults(null);
   };
 
+  // (1) Save username and room to localStorage on login
+  useEffect(() => {
+    if (username) {
+      localStorage.setItem('username', username);
+    }
+  }, [username]);
+  useEffect(() => {
+    if (room) {
+      localStorage.setItem('room', room);
+    }
+  }, [room]);
+
+  // (Optional) Logout handler to clear localStorage
+  const handleLogout = () => {
+    setUsername('');
+    setInput('');
+    localStorage.removeItem('username');
+    localStorage.removeItem('room');
+  };
+
   if (!username) {
     // (1) Show username prompt UI
     return (
@@ -414,6 +434,8 @@ function App() {
   // (4) Display online users sidebar, room list, and chat area
   return (
     <>
+      {/* App name header */}
+      <h1 style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '1.5rem', fontSize: '2.2rem', fontWeight: 700, letterSpacing: 1, color: '#1976d2' }}>NeChat App</h1>
       {/* Responsive styles for mobile/desktop */}
       <style>{`
         @media (max-width: 700px) {
